@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>সাফোলো একাডেমি | ষষ্ঠ থেকে দশম শ্রেণির কোচিং</title>
+<meta name="description" content="সাফোলো একাডেমি: ষষ্ঠ থেকে দশম শ্রেণির শিক্ষার্থীদের জন্য অভিজ্ঞ শিক্ষক, নিয়মিত পরীক্ষা ও যত্নশীল পাঠদান। আজই ভর্তি হও।">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla&display=swap">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['"Hind Siliguri"','sans-serif'],disp:['"Tiro Bangla"','"Hind Siliguri"','serif']},colors:{navy:'#0a1f4d',royal:'#2250d8',mist:'#eef3ff'}}}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:'Hind Siliguri',sans-serif;background:#fff;color:#0a1f4d}
+.ruled{background-image:repeating-linear-gradient(transparent 0 35px,rgba(255,255,255,.09) 35px 36px)}
+.pen{stroke-dasharray:400;stroke-dashoffset:400;animation:draw 1.6s .4s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.pen{animation:none;stroke-dashoffset:0}html{scroll-behavior:auto}}
+:focus-visible{outline:3px solid #f5b83d;outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const {useState,useEffect,useRef}=React;
+const html=htm.bind(React.createElement);
+
+// ===== সম্পাদনযোগ্য কনফিগ: নিজের তথ্য এখানে বসাও =====
+const CFG={address:'[কোচিং সেন্টারের ঠিকানা এখানে লিখুন]',phone:'[ফোন নম্বর এখানে লিখুন]',email:'[ইমেইল এখানে লিখুন]',facebook:'#contact',whatsapp:'',map:'[গুগল ম্যাপ এমবেড এখানে বসান]'};
+const NAV=[['home','হোম'],['about','আমাদের সম্পর্কে'],['courses','কোর্সসমূহ'],['teachers','শিক্ষকবৃন্দ'],['results','ফলাফল'],['gallery','গ্যালারি'],['contact','যোগাযোগ']];
+const COURSES=[['ষষ্ঠ শ্রেণি','বাংলা, ইংরেজি, গণিত, বিজ্ঞান, বাংলাদেশ ও বিশ্বপরিচয়','ভিত্তি মজবুত করার বছর। সহজ ব্যাখ্যায় প্রতিটি বিষয়ের শুরুটা পাকা হয়।'],['সপ্তম শ্রেণি','বাংলা, ইংরেজি, গণিত, বিজ্ঞান, বাংলাদেশ ও বিশ্বপরিচয়','অধ্যায়ভিত্তিক অনুশীলন ও নিয়মিত মূল্যায়নে ধারাবাহিক অগ্রগতি।'],['অষ্টম শ্রেণি','বাংলা, ইংরেজি, গণিত, বিজ্ঞান, বাংলাদেশ ও বিশ্বপরিচয়','জেএসসি-স্তরের প্রস্তুতি ও বিশ্লেষণ দক্ষতা গড়ে তোলার ক্লাস।'],['নবম শ্রেণি','বাংলা, ইংরেজি, গণিত, পদার্থ, রসায়ন, জীববিজ্ঞান, ICT','বিভাগ অনুযায়ী বিষয়ভিত্তিক পাঠদান ও এসএসসির প্রাথমিক প্রস্তুতি।'],['দশম শ্রেণি','বাংলা, ইংরেজি, গণিত, পদার্থ, রসায়ন, জীববিজ্ঞান, ICT','এসএসসির চূড়ান্ত প্রস্তুতি: মডেল টেস্ট, রিভিশন ও প্রশ্ন-সমাধান।']];
+const WHY=[['👩‍🏫','অভিজ্ঞ শিক্ষকমণ্ডলী','প্রতিটি বিষয়ে দক্ষ ও যত্নশীল শিক্ষক'],['🗓️','নিয়মিত ক্লাস ও পরীক্ষা','সাপ্তাহিক ও মাসিক পরীক্ষায় নিয়মিত যাচাই'],['🤝','দুর্বল শিক্ষার্থীদের বিশেষ যত্ন','আলাদা সময় দিয়ে পিছিয়ে থাকাদের এগিয়ে নেওয়া'],['📖','অধ্যায়ভিত্তিক প্রস্তুতি','প্রতিটি অধ্যায় শেষে অনুশীলন ও রিভিশন'],['📚','মানসম্মত শিক্ষা উপকরণ','গুছিয়ে সাজানো নোট ও অনুশীলনপত্র'],['📝','পরীক্ষাভিত্তিক প্রস্তুতি','মডেল টেস্ট ও প্রশ্নের ধরন অনুযায়ী অনুশীলন']];
+const TEACHERS=[['শিক্ষকের নাম','গণিত','[অভিজ্ঞতা: __ বছর]'],['শিক্ষকের নাম','ইংরেজি','[অভিজ্ঞতা: __ বছর]'],['শিক্ষকের নাম','বিজ্ঞান','[অভিজ্ঞতা: __ বছর]'],['শিক্ষকের নাম','বাংলা','[অভিজ্ঞতা: __ বছর]']];
+const GALLERY=[['🏫','ক্লাসরুম কার্যক্রম','from-royal to-navy'],['✏️','শিক্ষার্থীদের পাঠগ্রহণ','from-sky-500 to-royal'],['🎓','শিক্ষা অনুষ্ঠান','from-navy to-indigo-700'],['📝','পরীক্ষা কার্যক্রম','from-indigo-500 to-navy']];
+const TESTI=[['শিক্ষার্থীর নাম','ষষ্ঠ শ্রেণি','[এখানে শিক্ষার্থীর নিজের কথায় মতামত বসবে।]'],['শিক্ষার্থীর নাম','অষ্টম শ্রেণি','[এখানে শিক্ষার্থীর নিজের কথায় মতামত বসবে।]'],['শিক্ষার্থীর নাম','দশম শ্রেণি','[এখানে শিক্ষার্থীর নিজের কথায় মতামত বসবে।]']];
+const toBn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+
+const Logo=({light})=>html`<a href="#home" class="flex items-center gap-2.5 font-bold ${light?'text-white':'text-navy'}" aria-label="সাফোলো একাডেমি"><svg width="36" height="36" viewBox="0 0 36 36"><rect width="36" height="36" rx="9" fill="#2250d8"/><path d="M24 12c-2-2-9-3-9 1.500 0 5 10 2.500 10 8 0 4.500-8 4-10 1.500" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="27" cy="9" r="2.500" fill="#f5b83d"/></svg><span class="leading-tight">সাফোলো<span class="block text-[11px] font-medium opacity-70">SAFOLLO ACADEMY</span></span></a>`;
+const Btn=({href,kind='primary',children,...p})=>html`<a href=${href} class="inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition hover:-translate-y-0.5 ${kind==='primary'?'bg-amber-400 text-navy hover:bg-amber-300':kind==='ghost'?'border border-white/40 text-white hover:bg-white/10':'bg-royal text-white hover:bg-navy'}" ...${p}>${children}</a>`;
+const Head=({title,sub,light})=>html`<div class="max-w-2xl mb-10"><h2 class="font-disp text-3xl md:text-4xl ${light?'text-white':'text-navy'}">${title}</h2>${sub&&html`<p class="mt-3 ${light?'text-blue-100':'text-slate-600'}">${sub}</p>`}</div>`;
+const Sec=({id,cls='',children})=>html`<section id=${id} class="py-16 md:py-24 ${cls}"><div class="mx-auto max-w-6xl px-5">${children}</div></section>`;
+
+function useCount(target){const [v,setV]=useState(0);const r=useRef();useEffect(()=>{const io=new IntersectionObserver(([e])=>{if(!e.isIntersecting)return;io.disconnect();let s=null;const f=t=>{s=s||t;const p=Math.min((t-s)/1400,1);setV(Math.round(target*p));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)});io.observe(r.current);return()=>io.disconnect()},[]);return [v,r]}
+const Stat=({n,suffix,label})=>{const [v,r]=useCount(n);return html`<div ref=${r} class="text-center"><div class="font-disp text-4xl md:text-5xl text-white">${toBn(v)}${suffix}</div><div class="mt-1 text-blue-200 text-sm">${label}</div></div>`};
+
+function Nav(){const [open,setOpen]=useState(false);const [sc,setSc]=useState(false);useEffect(()=>{const f=()=>setSc(scrollY>20);addEventListener('scroll',f);return()=>removeEventListener('scroll',f)},[]);
+return html`<header class="fixed inset-x-0 top-0 z-40 transition ${sc||open?'bg-white shadow-md':'bg-transparent'}" style=${{paddingTop:'env(safe-area-inset-top,0px)'}}><div class="mx-auto max-w-6xl px-5 h-[68px] flex items-center justify-between"><${Logo} light=${!(sc||open)}/>
+<nav class="hidden lg:flex items-center gap-6 text-[15px] font-medium ${sc?'text-navy':'text-white'}">${NAV.map(([i,t])=>html`<a key=${i} href=${'#'+i} class="hover:text-amber-400 transition">${t}</a>`)}<${Btn} href="#admission" kind="royal" class="!py-2 !px-4 rounded-lg ${sc?'':'!bg-amber-400 !text-navy'}">ভর্তি হও<//></nav>
+<button class="lg:hidden p-2 ${sc||open?'text-navy':'text-white'}" aria-label="মেনু" aria-expanded=${open} onClick=${()=>setOpen(!open)}><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round">${open?html`<path d="M5 5l16 16M21 5L5 21"/>`:html`<path d="M3 7h20M3 13h20M3 19h20"/>`}</svg></button></div>
+${open&&html`<nav class="lg:hidden bg-white px-5 pb-5 flex flex-col text-navy">${NAV.map(([i,t])=>html`<a key=${i} href=${'#'+i} onClick=${()=>setOpen(false)} class="py-3 border-b border-slate-100 font-medium">${t}</a>`)}<${Btn} href="#admission" kind="royal" class="mt-4" onClick=${()=>setOpen(false)}>ভর্তি হও<//></nav>`}</header>`}
+
+function Hero(){return html`<section id="home" class="relative overflow-hidden bg-navy ruled text-white pt-32 pb-20 md:pt-40 md:pb-28"><div class="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-royal/40 blur-3xl"></div>
+<div class="relative mx-auto max-w-6xl px-5 grid lg:grid-cols-[1.15fr_.85fr] gap-12 items-center"><div>
+<p class="inline-block rounded-full bg-white/10 px-4 py-1.5 text-sm text-blue-100">ষষ্ঠ – দশম শ্রেণি · সকল বিষয়</p>
+<h1 class="font-disp mt-5 text-4xl sm:text-5xl lg:text-[3.4rem] leading-[1.25]">সাফল্যের পথে তোমার বিশ্বস্ত শিক্ষা প্রতিষ্ঠান</h1>
+<svg class="mt-2" width="260" height="14" viewBox="0 0 260 14"><path class="pen" d="M3 9C60 2 120 12 170 6s70-2 87 2" fill="none" stroke="#f5b83d" stroke-width="3.500" stroke-linecap="round"/></svg>
+<p class="mt-6 max-w-xl text-lg text-blue-100 leading-relaxed">ষষ্ঠ থেকে দশম শ্রেণির শিক্ষার্থীদের জন্য অভিজ্ঞ শিক্ষকমণ্ডলীর মাধ্যমে সকল বিষয়ের মানসম্মত শিক্ষা ও যত্নশীল পাঠদান।</p>
+<div class="mt-8 flex flex-wrap gap-3"><${Btn} href="#admission">ভর্তি চলছে<//><${Btn} href="#courses" kind="ghost">আমাদের কোর্স দেখুন<//></div>
+<p class="mt-6 text-sm text-blue-200">Your Success, Our Commitment.</p></div>
+<div class="relative mx-auto w-full max-w-sm"><div class="rotate-2 rounded-2xl bg-white p-6 text-navy shadow-2xl"><div class="flex justify-between items-center"><b>অগ্রগতি প্রতিবেদন</b><span class="text-xs rounded bg-amber-100 px-2 py-0.5 text-amber-800">নমুনা</span></div>
+${[['গণিত',82],['ইংরেজি',74],['বিজ্ঞান',90],['বাংলা',68]].map(([s,p])=>html`<div key=${s} class="mt-4"><div class="flex justify-between text-sm"><span>${s}</span><span>${toBn(p)}%</span></div><div class="mt-1 h-2.5 rounded-full bg-mist"><div class="h-full rounded-full bg-royal" style=${{width:p+'%'}}></div></div></div>`)}
+<p class="mt-5 text-xs text-slate-500">প্রতিটি শিক্ষার্থীর অগ্রগতি নিয়মিত ট্র্যাক করা হয়।</p></div></div></div></section>`}
+
+function About(){return html`<${Sec} id="about"><div class="grid md:grid-cols-2 gap-12 items-start"><div><${Head} title="সাফোলো একাডেমি সম্পর্কে"/><p class="text-slate-700 leading-relaxed text-lg">সাফোলো একাডেমি ষষ্ঠ থেকে দশম শ্রেণির শিক্ষার্থীদের জন্য একটি পরিকল্পিত শিক্ষা প্রতিষ্ঠান। আমরা বিশ্বাস করি, প্রতিটি শিক্ষার্থী আলাদা; তাই নিয়মিত পাঠদান, পরীক্ষা ও ব্যক্তিগত নজরদারির মাধ্যমে প্রত্যেককে তার সেরা জায়গায় পৌঁছাতে সাহায্য করি।</p><p class="mt-4 text-sm text-slate-500">[প্রতিষ্ঠার সাল ও নিজস্ব পরিচিতি এখানে যোগ করুন]</p></div>
+<ul class="grid sm:grid-cols-2 gap-4">${[['অভিজ্ঞ শিক্ষক','প্রতিটি বিষয়ে দক্ষ শিক্ষক'],['মানসম্মত শিক্ষা','সহজ ব্যাখ্যা, গোছানো পাঠ'],['ব্যক্তিগত যত্ন','প্রত্যেক শিক্ষার্থীর দিকে নজর'],['নিয়মিত পরীক্ষা','সাপ্তাহিক ও মাসিক মূল্যায়ন'],['অগ্রগতি ট্র্যাকিং','অভিভাবকের সঙ্গে নিয়মিত আলোচনা']].map(([t,d])=>html`<li key=${t} class="rounded-xl border-l-4 border-royal bg-mist p-4"><b>${t}</b><p class="text-sm text-slate-600">${d}</p></li>`)}</ul></div><//>`}
+
+function Courses(){return html`<${Sec} id="courses" cls="bg-mist"><${Head} title="আমাদের কোর্সসমূহ" sub="প্রতিটি শ্রেণির জন্য আলাদা পরিকল্পনা ও নিয়মিত অনুশীলন।"/><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">${COURSES.map(([c,s,d],i)=>html`<article key=${c} class="group flex flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-blue-100 transition hover:-translate-y-1 hover:shadow-xl ${i===4?'lg:col-span-1':''}"><h3 class="font-disp text-2xl text-royal">${c}</h3><p class="mt-3 text-sm font-semibold">বিষয়: <span class="font-normal text-slate-600">${s}</span></p><p class="mt-2 flex-1 text-slate-600">${d}</p><a href="#admission" class="mt-5 inline-flex font-semibold text-royal group-hover:text-navy">বিস্তারিত জানুন ›</a></article>`)}</div><//>`}
+
+function Why(){return html`<${Sec} id="why" cls="bg-navy ruled"><${Head} light title="কেন সাফোলো একাডেমি?"/><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">${WHY.map(([e,t,d])=>html`<div key=${t} class="rounded-2xl bg-white/10 p-6 text-white backdrop-blur transition hover:bg-white/15"><div class="text-3xl">${e}</div><h3 class="mt-3 text-xl font-semibold">${t}</h3><p class="mt-1 text-blue-100">${d}</p></div>`)}</div><//>`}
+
+function Teachers(){return html`<${Sec} id="teachers"><${Head} title="আমাদের শিক্ষকবৃন্দ" sub="নমুনা তথ্য: প্রকৃত শিক্ষকদের নাম, ছবি ও পরিচিতি দিয়ে বদলে নাও।"/><div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">${TEACHERS.map(([n,s,e],i)=>html`<article key=${i} class="overflow-hidden rounded-2xl ring-1 ring-blue-100 transition hover:shadow-xl"><div class="flex h-36 items-center justify-center bg-gradient-to-br from-royal to-navy"><svg width="72" height="72" viewBox="0 0 72 72" fill="#fff" fill-opacity=".85"><circle cx="36" cy="26" r="13"/><path d="M10 68c2-18 14-24 26-24s24 6 26 24z"/></svg></div><div class="p-5"><h3 class="font-bold text-lg">${n}</h3><p class="text-royal font-medium">${s} বিভাগ</p><p class="text-sm text-slate-500">${e}</p><p class="mt-2 text-sm text-slate-600">[সংক্ষিপ্ত পরিচিতি এখানে লিখুন]</p></div></article>`)}</div><//>`}
+
+function Results(){return html`<${Sec} id="results" cls="bg-mist"><${Head} title="শিক্ষার্থীদের ফলাফল" sub="নিচের সংখ্যা ও গল্প নমুনা। প্রকৃত ফলাফল পাওয়ার পর বদলে নাও।"/>
+<div class="rounded-3xl bg-navy p-8 md:p-12 grid grid-cols-2 md:grid-cols-4 gap-8"><${Stat} n=${500} suffix="+" label="শিক্ষার্থী (নমুনা)"/><${Stat} n=${20} suffix="+" label="শিক্ষক (নমুনা)"/><${Stat} n=${95} suffix="%" label="পাসের হার (নমুনা)"/><${Stat} n=${10} suffix="+" label="বছরের অভিজ্ঞতা (নমুনা)"/></div>
+<div class="mt-6 grid md:grid-cols-3 gap-5">${['প্রথম সাময়িক পরীক্ষায় অগ্রগতি','সাফল্যের গল্প','মডেল টেস্টে পারদর্শিতা'].map(t=>html`<div key=${t} class="rounded-2xl bg-white p-6 ring-1 ring-blue-100"><span class="text-xs rounded bg-amber-100 px-2 py-0.5 text-amber-800">নমুনা বিষয়বস্তু</span><h3 class="mt-3 font-bold">${t}</h3><p class="mt-1 text-slate-600 text-sm">[প্রকৃত ফলাফল বা শিক্ষার্থীর অনুমতিসহ সাফল্যের গল্প এখানে বসবে।]</p></div>`)}</div><//>`}
+
+function Gallery(){return html`<${Sec} id="gallery"><${Head} title="ফটো গ্যালারি" sub="নমুনা ঘর: নিজের তোলা ছবি দিয়ে বদলে নাও।"/><div class="grid grid-cols-2 lg:grid-cols-4 gap-4">${GALLERY.map(([e,t,g])=>html`<figure key=${t} class="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br ${g}"><div class="flex h-full items-center justify-center text-6xl transition group-hover:scale-110">${e}</div><figcaption class="absolute inset-x-0 bottom-0 bg-navy/70 p-3 text-sm font-medium text-white">${t}</figcaption></figure>`)}</div><//>`}
+
+function Testimonials(){return html`<${Sec} id="testimonials" cls="bg-mist"><${Head} title="শিক্ষার্থীরা যা বলে" sub="নমুনা মতামত। প্রকাশের আগে প্রকৃত মতামত ও অনুমতি নাও।"/><div class="grid md:grid-cols-3 gap-5">${TESTI.map(([n,c,q],i)=>html`<blockquote key=${i} class="rounded-2xl bg-white p-6 ring-1 ring-blue-100"><p class="text-slate-700">${q}</p><footer class="mt-5 flex items-center gap-3"><span class="flex h-11 w-11 items-center justify-center rounded-full bg-royal font-bold text-white">${n[0]}</span><span><b class="block">${n}</b><span class="text-sm text-slate-500">${c}</span></span></footer></blockquote>`)}</div><//>`}
+
+function Admission(){const empty={name:'',father:'',mother:'',cls:'',phone:'',address:''};const [f,setF]=useState(empty);const [er,setEr]=useState({});const [ok,setOk]=useState(false);
+const set=k=>e=>setF({...f,[k]:e.target.value});
+const submit=e=>{e.preventDefault();const x={};if(f.name.trim().length<3)x.name='শিক্ষার্থীর পূর্ণ নাম লিখুন';if(f.father.trim().length<3)x.father='পিতার নাম লিখুন';if(f.mother.trim().length<3)x.mother='মাতার নাম লিখুন';if(!f.cls)x.cls='শ্রেণি নির্বাচন করুন';if(!/^01[3-9]\d{8}$/.test(f.phone.replace(/[\s-]/g,'').replace(/^\+88/,'')))x.phone='সঠিক ১১ সংখ্যার মোবাইল নম্বর দিন (যেমন 01XXXXXXXXX)';if(f.address.trim().length<5)x.address='সম্পূর্ণ ঠিকানা লিখুন';setEr(x);if(!Object.keys(x).length){setOk(true);setF(empty)}};
+const Fld=({k,label,type='text',children})=>html`<label class="block"><span class="text-sm font-semibold">${label}</span>${children||html`<input type=${type} value=${f[k]} onInput=${set(k)} class="mt-1 w-full rounded-lg border px-3 py-2.5 text-navy ${er[k]?'border-red-500':'border-slate-300'}" aria-invalid=${!!er[k]}/>`}${er[k]&&html`<span class="text-sm text-red-600">${er[k]}</span>`}</label>`;
+return html`<${Sec} id="admission" cls="bg-royal"><div class="grid lg:grid-cols-[.8fr_1.2fr] gap-10 items-start"><div class="text-white"><h2 class="font-disp text-3xl md:text-4xl leading-snug">আজই ভর্তি হও, গড়ে তোলো তোমার উজ্জ্বল ভবিষ্যৎ!</h2><p class="mt-4 text-blue-100">ফর্মটি পূরণ করলে আমরা তোমার সঙ্গে যোগাযোগ করব।</p></div>
+<div class="rounded-2xl bg-white p-6 md:p-8 shadow-2xl">${ok?html`<div role="status" class="py-10 text-center"><div class="text-5xl">✅</div><h3 class="mt-3 text-2xl font-bold text-navy">আবেদন জমা হয়েছে!</h3><p class="mt-2 text-slate-600">ধন্যবাদ। আমরা শীঘ্রই যোগাযোগ করব।</p><p class="mt-2 text-xs text-slate-400">(ডেমো: তথ্য এখনো কোথাও পাঠানো হয় না। ফর্ম-সার্ভিসের সঙ্গে যুক্ত করে নাও।)</p><button class="mt-5 font-semibold text-royal" onClick=${()=>setOk(false)}>আরেকটি আবেদন করুন</button></div>`:html`<form onSubmit=${submit} noValidate class="grid gap-4 sm:grid-cols-2"><${Fld} k="name" label="শিক্ষার্থীর নাম"/><${Fld} k="father" label="পিতার নাম"/><${Fld} k="mother" label="মাতার নাম"/><${Fld} k="cls" label="শ্রেণি"><select value=${f.cls} onChange=${set('cls')} class="mt-1 w-full rounded-lg border px-3 py-2.5 ${er.cls?'border-red-500':'border-slate-300'}"><option value="">নির্বাচন করুন</option>${COURSES.map(c=>html`<option key=${c[0]}>${c[0]}</option>`)}</select><//><${Fld} k="phone" label="মোবাইল নম্বর" type="tel"/><div class="sm:col-span-2"><${Fld} k="address" label="ঠিকানা"/></div><button class="sm:col-span-2 rounded-lg bg-navy py-3 font-semibold text-white transition hover:bg-royal">আবেদন জমা দিন</button></form>`}</div></div><//>`}
+
+function Contact(){return html`<${Sec} id="contact"><${Head} title="যোগাযোগ"/><div class="grid md:grid-cols-2 gap-8"><ul class="space-y-4">${[['📍','ঠিকানা',CFG.address],['📞','ফোন',CFG.phone],['✉️','ইমেইল',CFG.email]].map(([e,t,v])=>html`<li key=${t} class="flex gap-4 rounded-xl bg-mist p-4"><span class="text-2xl">${e}</span><span><b>${t}</b><br/><span class="text-slate-600">${v}</span></span></li>`)}<li><a href=${CFG.facebook} class="font-semibold text-royal underline">ফেসবুক পেজ [লিংক বসান]</a></li></ul>
+<div class="flex min-h-[260px] items-center justify-center rounded-2xl border-2 border-dashed border-royal/40 bg-mist p-6 text-center text-slate-500">${CFG.map}</div></div><//>`}
+
+function Footer(){return html`<footer class="bg-navy py-12 text-blue-100"><div class="mx-auto grid max-w-6xl gap-8 px-5 md:grid-cols-4"><div class="md:col-span-1"><${Logo} light=${true}/><p class="mt-3 text-sm">ষষ্ঠ থেকে দশম শ্রেণির জন্য মানসম্মত ও যত্নশীল পাঠদান। Your Success, Our Commitment.</p></div>
+<div><b class="text-white">দ্রুত লিংক</b><ul class="mt-3 space-y-1.5 text-sm">${NAV.slice(0,4).map(([i,t])=>html`<li key=${i}><a href=${'#'+i} class="hover:text-white">${t}</a></li>`)}</ul></div>
+<div><b class="text-white">কোর্স</b><ul class="mt-3 space-y-1.5 text-sm">${COURSES.map(c=>html`<li key=${c[0]}><a href="#courses" class="hover:text-white">${c[0]}</a></li>`)}</ul></div>
+<div><b class="text-white">যোগাযোগ</b><p class="mt-3 text-sm">${CFG.address}<br/>${CFG.phone}<br/>${CFG.email}</p><a href=${CFG.facebook} class="mt-2 inline-block text-sm underline">ফেসবুক</a></div></div>
+<p class="mt-10 text-center text-xs text-blue-300">© ${new Date().getFullYear()} সাফোলো একাডেমি। সর্বস্বত্ব সংরক্ষিত।</p></footer>`}
+
+function Floaters(){const [s,setS]=useState(false);useEffect(()=>{const f=()=>setS(scrollY>500);addEventListener('scroll',f);return()=>removeEventListener('scroll',f)},[]);
+return html`<div class="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3" style=${{bottom:'calc(1.25rem + env(safe-area-inset-bottom,0px))'}}>${s&&html`<button aria-label="উপরে যান" onClick=${()=>scrollTo({top:0})} class="h-11 w-11 rounded-full bg-navy text-white shadow-lg hover:bg-royal">↑</button>`}<a href=${CFG.whatsapp||'#contact'} aria-label="হোয়াটসঅ্যাপে যোগাযোগ" class="flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-xl transition hover:scale-105"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.500 15.200L2 22l4.900-1.500A10 10 0 1012 2zm5.200 14c-.2.600-1.300 1.200-1.800 1.200-.5.100-1 .200-3.300-.700-2.800-1.200-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.400 0 .5l-.4.600c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2 1.100 1 2 1.300 2.300 1.400.3.100.4.100.6-.1l.8-1c.2-.3.400-.2.600-.1l1.900.9c.3.100.4.200.5.300.1.200.1.800-.1 1.400z"/></svg></a></div>`}
+
+function App(){const [ld,setLd]=useState(true);useEffect(()=>{const t=setTimeout(()=>setLd(false),900);return()=>clearTimeout(t)},[]);
+return html`<${React.Fragment}>${ld&&html`<div class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-navy text-white"><svg width="64" height="64" viewBox="0 0 36 36"><rect width="36" height="36" rx="9" fill="#2250d8"/><path class="pen" d="M24 12c-2-2-9-3-9 1.500 0 5 10 2.500 10 8 0 4.500-8 4-10 1.500" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg><b>সাফোলো একাডেমি</b></div>`}<${Nav}/><main><${Hero}/><${About}/><${Courses}/><${Why}/><${Teachers}/><${Results}/><${Gallery}/><${Testimonials}/><${Admission}/><${Contact}/></main><${Footer}/><${Floaters}/><//>`}
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App}/>`);
+</script>
+</body>
+</html>
